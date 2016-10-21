@@ -46,3 +46,11 @@ Route::delete('client/{id}','ClientController@destroy');
 Route::get('client/{id}/computer','ClientController@showClientComputer');
 //Listado de todas los monitores enlazados al id de cliente
 Route::get('client/{id}/monitor','ClientController@showClientMonitor');
+
+Route::group(['middleware' => ['api','cors'],'prefix' => 'api'], function () {
+    Route::post('register', 'APIController@register');
+    Route::post('login', 'APIController@login');
+    Route::group(['middleware' => 'jwt-auth'], function () {
+  	   Route::post('get_user_details', 'APIController@get_user_details');
+    });
+});
